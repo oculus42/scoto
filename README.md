@@ -1,4 +1,4 @@
-# Scototypes (scoto)
+# Scototypes (Scoto)
 ## Nestable, Testable, Isolable Scopes using Prototype chains
 
 Since ECMAscript 3, scopes are a foundational element of JavaScript.
@@ -17,8 +17,8 @@ attach it to a different chain, or even flatten the hierarchy into a new object.
 Scototypes can mimic regular scopes by starting with your root object:
 
 ```javascript
-const myScope = scoto.child(window);
-const nestedScope = scoto.child(myScope);
+const myScope = Scoto.child(window);
+const nestedScope = Scoto.child(myScope);
 
 nestedScope.console.log('This works!');
 ```
@@ -26,8 +26,8 @@ nestedScope.console.log('This works!');
 Or you can make isolated scopes:
 
 ```javascript
-const myIsolatedScope = scoto.new(null);
-const nestedScope = scoto.child(myIsolatedScope);
+const myIsolatedScope = Scoto.new(null);
+const nestedScope = Scoto.child(myIsolatedScope);
 
 // console is undefined.
 nestedScope.console.log('This will error.'); 
@@ -37,14 +37,14 @@ Scototypes use a few simple prototype methods to support nesting scope or data i
 Forty lines of code and comments cover most of the examples:
 ```javascript
 // isolate ensures no inherited prototype.
-const defaults = scoto.isolate({
+const defaults = Scoto.isolate({
   players: 1,
   gameTime: 60000, // one minute
   maxEnemies: 5
 });
 
 // rebase puts keys into a new object with a prototype chain
-const appSettings = scoto.rebase(getAppSettings(), defaults);
+const appSettings = Scoto.rebase(getAppSettings(), defaults);
 
 const userSettings = {
   gameTime: 45000,
@@ -52,14 +52,14 @@ const userSettings = {
 };
 
 // rebase again to keep building the hierarchy
-const currentSettings = scoto.rebase(userSettings, appSettings);
+const currentSettings = Scoto.rebase(userSettings, appSettings);
 
 // flatten merges the properties into a single object.
 // Useful for exporting or saving.
-const exportState = scoto.flatten(currentSettings);
+const exportState = Scoto.flatten(currentSettings);
 
 // child continues to build on a hierarchy.
-const gameState = scoto.child(currentSettings);
+const gameState = Scoto.child(currentSettings);
 
 // Now we can assign additional keys to our state
 gameState.enemies = [];
@@ -78,7 +78,7 @@ if (shouldEndDangerMode()) {
 }
 ```
 
-All methods in `scoto` are non-mutating.
+All methods in `Scoto` are non-mutating.
 
 ### Scototype Context
 
