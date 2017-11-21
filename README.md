@@ -38,17 +38,17 @@ Forty lines of code and comments cover most of the examples:
 ```javascript
 // isolate ensures no inherited prototype.
 const defaults = scoto.isolate({
-    players: 1,
-    gameTime: 60000, // one minute
-    maxEnemies: 5
+  players: 1,
+  gameTime: 60000, // one minute
+  maxEnemies: 5
 });
 
 // rebase puts keys into a new object with a prototype chain
 const appSettings = scoto.rebase(getAppSettings(), defaults);
 
 const userSettings = {
-    gameTime: 45000,
-    maxEnemies: 8
+  gameTime: 45000,
+  maxEnemies: 8
 };
 
 // rebase again to keep building the hierarchy
@@ -67,15 +67,50 @@ gameState.direction = 0;
 gameState.started = true;
 
 if (shouldStartDangerMode()) {
-    // We don't need to track previous state for the scototype.
-    // We just shadow the "older" values. 
-    gameState.maxEnemies = 12;
+  // We don't need to track previous state for the scototype.
+  // We just shadow the "older" values. 
+  gameState.maxEnemies = 12;
 }
 
 if (shouldEndDangerMode()) {
-    // Deleting variables eliminates shadowing.
-    delete gameState.maxEnemies;
+  // Deleting variables eliminates shadowing.
+  delete gameState.maxEnemies;
 }
 ```
 
 All methods in `scoto` are non-mutating.
+
+### Scototype Context
+
+Since scototypes provide nested scopes, we can optionally bind them as *contexts*.
+
+```javascript
+function submitNewScore(score) {
+  // Clear variable name for nesting.
+  const scoto = this;
+
+  if (undefined === scoto.scores) {
+    getScores.call(scoto)
+      .then(function(scores) {
+        // Push scores onto the current scoto
+        scoto.scores = scores;
+        // Call this function again with the current scoto
+        submitNewScore.call(scoto, score);
+      }.bind(scoto));
+    return;
+  }
+
+  http.post(`${scoto.baseURL}/score`, {score})
+  .then(receiveScoreResponse.bind(scoto), handleError.bind(scoto));
+
+}
+
+function receiveAddScoreResponse(data) {
+  const scoto = this;
+  scoto.scores = data.scores;
+  scoto.lastGameRank = data.gameRank;
+
+  updateSplashScreen.call(scoto);
+}
+
+```
