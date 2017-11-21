@@ -6,8 +6,8 @@ const scoto = (function(){
 
     /**
      * Provide an array of the successive parent scopes.
-     * Useful for identifying shadowed variables
-     * or scope nesting depth.
+     * Useful for identifying shadowed variables,
+     * scope nesting depth, or flattening the scope.
      * @param {Object} scope
      * @returns {Array}
      */
@@ -24,6 +24,23 @@ const scoto = (function(){
     };
 
     return {
+
+        /**
+         * Create a plain object for a base.
+         * @returns {Object}
+         */
+        new: function () {
+            return Object.create(null);
+        },
+
+        /**
+         * Create a new scope child from the passed scope.
+         * @param {Object} scope
+         * @returns {Object}
+         */
+        child: function (scope) {
+            return Object.create(scope);
+        },
 
         /**
          * Return this scope without any parents.
@@ -45,15 +62,6 @@ const scoto = (function(){
         },
 
         /**
-         * Create a new scope child from the passed scope.
-         * @param {Object} scope
-         * @returns {Object}
-         */
-        child: function (scope) {
-            return Object.create(scope);
-        },
-
-        /**
          * Obtain the parent of the current scope.
          * @param scope
          * @returns {Object|null}
@@ -64,8 +72,8 @@ const scoto = (function(){
 
         /**
          * Provide an array of the successive parent scopes.
-         * Useful for identifying shadowed variables
-         * or scope nesting depth.
+         * Useful for identifying shadowed variables,
+         * scope nesting depth, or flattening the scope.
          * @param {Object} scope
          * @returns {Array}
          */
