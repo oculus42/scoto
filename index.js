@@ -1,7 +1,6 @@
 /**
  * Scototype
  * Nestable, Testable, Isolable Scopes using Prototype chains
- * @type {{isolate: scoto.isolate, rebase: scoto.rebase, child: scoto.child, parent: scoto.parent, walk: scoto.walk, bind: scoto.bind, flatten: scoto.flatten}}
  */
 const scoto = (function(){
 
@@ -56,8 +55,8 @@ const scoto = (function(){
 
         /**
          * Obtain the parent of the current scope.
-         * @param {Object} scope
-         * @returns {Object}
+         * @param scope
+         * @returns {Object|null}
          */
         parent: function (scope) {
             return Object.getPrototypeOf(scope);
@@ -75,10 +74,10 @@ const scoto = (function(){
         /**
          * Bind a function so the context is a scototype.
          * Defaults to a new child, but can be overridden with noNest
-         * @param {function} fn
+         * @param {Function} fn
          * @param {Object} scope
          * @param {boolean} noNest
-         * @returns {function}
+         * @returns {Function}
          */
         bind: function (fn, scope, noNest) {
             return fn.bind(noNest ? scope : Object.create(scope));
