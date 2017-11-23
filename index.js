@@ -73,7 +73,7 @@ class Scoto {
        * @param {Object} scope
        * @returns {Object}
        */
-      static flatten(scope) { return Object.assign(Object.create(null), ...walk(scope).reverse()) }
+      static flatten(scope) { return Object.assign(Object.create(null), ...this.walk(scope).reverse()) }
 }
 
 module.exports = Scoto;
