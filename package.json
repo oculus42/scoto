@@ -1,6 +1,6 @@
 {
   "name": "scoto",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Prototype-based scope concept",
   "main": "index.js",
   "scripts": {
