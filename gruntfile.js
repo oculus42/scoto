@@ -22,15 +22,9 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-simple-mocha');
-
     grunt.loadNpmTasks('grunt-mocha-istanbul');
 
-    grunt.registerTask('default',
-        ['mocha_istanbul']);
-
-    grunt.registerTask('test',
-        ['simplemocha']);
-
-    grunt.registerTask('cover',
-        ['mocha_istanbul']);
+    grunt.registerTask('default', ['mocha_istanbul']);
+    grunt.registerTask('test', ['simplemocha']);
+    grunt.registerTask('cover', ['mocha_istanbul']);
 };
