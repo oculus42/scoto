@@ -161,11 +161,84 @@ describe('Scoto', function() {
             assert.notEqual(newChild.bar, flatChild.bar);
         });
 
+        it('should merge hierarchy', function(){
+            const gen1 = Scoto.new();
+            const gen2 = Scoto.child(gen1);
+            const gen3 = Scoto.child(gen2);
+
+            gen1.foo = 1;
+            gen2.bar = 2;
+            gen3.baz = 3;
+
+            const flatChild = Scoto.flatten(gen3);
+
+            assert.property(gen3, 'foo');
+            assert.property(gen3, 'bar');
+            assert.property(gen3, 'baz');
+        });
+
+        it('should not be affected by the original hierarchy', function() {
+            const gen1 = Scoto.new();
+            const gen2 = Scoto.child(gen1);
+            const gen3 = Scoto.child(gen2);
+
+            gen1.foo = 1;
+            gen2.bar = 2;
+            gen3.baz = 3;
+
+            const flatChild = Scoto.flatten(gen3);
+
+            // Should have the same values to start
+            assert.equal(gen3.foo, flatChild.foo);
+            assert.equal(gen3.bar, flatChild.bar);
+            assert.equal(gen3.baz, flatChild.baz);
+
+            gen1.foo = 4;
+            gen2.bar = 5;
+            gen3.baz = 6;
+
+            // Should not be affected by the original
+            assert.notEqual(gen3.foo, flatChild.foo);
+            assert.notEqual(gen3.bar, flatChild.bar);
+            assert.notEqual(gen3.baz, flatChild.baz);
+        });
+
+        it('should not affect the original hierarchy', function() {
+            const gen1 = Scoto.new();
+            const gen2 = Scoto.child(gen1);
+            const gen3 = Scoto.child(gen2);
+
+            gen1.foo = 1;
+            gen2.bar = 2;
+            gen3.baz = 3;
+
+            const flatChild = Scoto.flatten(gen3);
+
+            // Should have the same values to start
+            assert.equal(gen3.foo, flatChild.foo);
+            assert.equal(gen3.bar, flatChild.bar);
+            assert.equal(gen3.baz, flatChild.baz);
+
+            // Should not affect the original
+            flatChild.foo = 7;
+            flatChild.bar = 8;
+            flatChild.baz = 9;
+
+            // Should not be affected by the original
+            assert.notEqual(gen3.foo, flatChild.foo);
+            assert.notEqual(gen3.bar, flatChild.bar);
+            assert.notEqual(gen3.baz, flatChild.baz);
+        });
+
     });
 
     describe('parent', function(){
         it('should return the parent object', function(){
+            const newScoto = Scoto.new();
+            const newChild = Scoto.child(newScoto);
+            const parentScoto = Scoto.parent(newChild);
 
+            assert.strictEqual(newScoto, parentScoto);
         });
 
         it('should return null if no parent object', function(){
@@ -200,7 +273,35 @@ describe('Scoto', function() {
             // Confirm rebase to the same parent is correct, even if the objects are different.
             assert.notStrictEqual(newChild, rebaseWithSameParent);
             assert.strictEqual(Scoto.parent(newChild), Scoto.parent(rebaseWithSameParent));
-        })
+        });
+    });
+
+    describe('bind', function(){
+        it('should bind a scope as a context', function(){
+            const newScoto = Scoto.new();
+            const getThis = function() { return this };
+            const boundGet = Scoto.bind(getThis, newScoto, true);
+
+            assert.strictEqual(newScoto, boundGet());
+            assert.notProperty(boundGet(), 'foo');
+
+            newScoto.foo = 1;
+
+            assert.property(boundGet(), 'foo');
+        });
+
+        it('should bind a child scope as a context', function(){
+            const newScoto = Scoto.new();
+            const getThis = function() { return this };
+            const boundGet = Scoto.bind(getThis, newScoto);
+
+            assert.notStrictEqual(newScoto, boundGet());
+            assert.notProperty(boundGet(), 'foo');
+
+            newScoto.foo = 1;
+
+            assert.property(boundGet(), 'foo');
+        });
     })
 
 });
