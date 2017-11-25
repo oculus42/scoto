@@ -1,24 +1,28 @@
+const conf_mochaIstanbul = {
+    coverage: {
+        src: 'test', // a folder works nicely
+        options: {
+            mask: '*.js'
+        }
+    }
+};
+
+const conf_simpleMocha = {
+    options: {
+        globals: ['expect'],
+        timeout: 3000,
+        ignoreLeaks: false,
+        ui: 'bdd',
+        reporter: 'tap'
+    },
+    all: { src: ['test/*.js'] }
+};
+
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        mocha_istanbul: {
-            coverage: {
-                src: 'test', // a folder works nicely
-                options: {
-                    mask: '*.js'
-                }
-            }
-        },
-        simplemocha: {
-            options: {
-                globals: ['expect'],
-                timeout: 3000,
-                ignoreLeaks: false,
-                ui: 'bdd',
-                reporter: 'tap'
-            },
-            all: { src: ['test/*.js'] }
-        }
+        mocha_istanbul: conf_mochaIstanbul,
+        simplemocha: conf_simpleMocha
     });
 
     grunt.loadNpmTasks('grunt-simple-mocha');
