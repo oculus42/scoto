@@ -280,7 +280,7 @@ describe('Scoto', function() {
         it('should bind a scope as a context', function(){
             const newScoto = Scoto.new();
             const getThis = function() { return this };
-            const boundGet = Scoto.bind(getThis, newScoto, true);
+            const boundGet = Scoto.bind(getThis, newScoto);
 
             assert.strictEqual(newScoto, boundGet());
             assert.notProperty(boundGet(), 'foo');
@@ -293,7 +293,7 @@ describe('Scoto', function() {
         it('should bind a child scope as a context', function(){
             const newScoto = Scoto.new();
             const getThis = function() { return this };
-            const boundGet = Scoto.bind(getThis, newScoto);
+            const boundGet = Scoto.bind(getThis, newScoto, true);
 
             assert.notStrictEqual(newScoto, boundGet());
             assert.notProperty(boundGet(), 'foo');

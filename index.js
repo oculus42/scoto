@@ -70,10 +70,10 @@ class Scoto {
      * Defaults to a new child, but can be overridden with noNest
      * @param {Function} fn
      * @param {Object} scope
-     * @param {boolean} noNest
+     * @param {boolean} nest
      * @returns {Function}
      */
-    static bind(fn, scope, noNest) { return fn.bind(noNest ? scope : Object.create(scope)) }
+    static bind(fn, scope, nest) { return fn.bind(nest ? Object.create(scope) : scope) }
 }
 
 module.exports = Scoto;
