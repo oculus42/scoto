@@ -77,6 +77,7 @@ class Scoto {
 
     /**
      * Provide a reusable binder for a scope.
+     * Better for partial application/FP
      * @param {Object} scope
      * @param {boolean} nest
      * @returns {function(Function): Function}
