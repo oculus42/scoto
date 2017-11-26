@@ -67,7 +67,7 @@ class Scoto {
 
     /**
      * Bind a function so the context is a scototype.
-     * Defaults to a new child, but can be overridden with noNest
+     * Defaults to the same scope, but can be overridden with nest to create a new child
      * @param {Function} fn
      * @param {Object} scope
      * @param {boolean} nest
