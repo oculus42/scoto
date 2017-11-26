@@ -73,7 +73,9 @@ class Scoto {
       * @param {boolean} noNest
       * @returns {Function}
       */
-      static bind(fn, scope, noNest) { return fn.bind(noNest ? scope : Object.create(scope)) }
+     static bind(fn, scope, noNest) { return fn.bind(noNest ? scope : Object.create(scope)) }
+
+
 }
 
 module.exports = Scoto;
