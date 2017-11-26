@@ -74,6 +74,14 @@ class Scoto {
      * @returns {Function}
      */
     static bind(fn, scope, nest) { return fn.bind(nest ? Object.create(scope) : scope) }
+
+    /**
+     * Provide a reusable binder for a scope.
+     * @param {Object} scope
+     * @param {boolean} nest
+     * @returns {function(Function): Function}
+     */
+    static binder(scope, nest) { return (fn) => Scoto.bind(fn, scope, nest) }
 }
 
 module.exports = Scoto;
