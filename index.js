@@ -32,12 +32,12 @@ class Scoto {
      */
     static rebase(scope, newBase) { return Object.assign(Object.create(newBase), scope) }
 
-     /**
-      * Obtain the parent of the current scope.
-      * @param scope
-      * @returns {Object|null}
-      */
-     static parent(scope) { return Object.getPrototypeOf(scope) }
+    /**
+     * Obtain the parent of the current scope.
+     * @param scope
+     * @returns {Object|null}
+     */
+    static parent(scope) { return Object.getPrototypeOf(scope) }
 
     /**
      * Provide an array of the successive parent scopes.
@@ -65,17 +65,15 @@ class Scoto {
      */
     static flatten(scope) { return Object.assign(Object.create(null), ...this.walk(scope).reverse()) }
 
-     /**
-      * Bind a function so the context is a scototype.
-      * Defaults to a new child, but can be overridden with noNest
-      * @param {Function} fn
-      * @param {Object} scope
-      * @param {boolean} noNest
-      * @returns {Function}
-      */
-     static bind(fn, scope, noNest) { return fn.bind(noNest ? scope : Object.create(scope)) }
-
-
+    /**
+     * Bind a function so the context is a scototype.
+     * Defaults to a new child, but can be overridden with noNest
+     * @param {Function} fn
+     * @param {Object} scope
+     * @param {boolean} noNest
+     * @returns {Function}
+     */
+    static bind(fn, scope, noNest) { return fn.bind(noNest ? scope : Object.create(scope)) }
 }
 
 module.exports = Scoto;
