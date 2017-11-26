@@ -5,25 +5,6 @@
 class Scoto {
 
     /**
-     * Provide an array of the successive parent scopes.
-     * Useful for identifying shadowed variables,
-     * scope nesting depth, or flattening the scope.
-     * @param {Object} scope
-     * @returns {Array}
-     */
-    static walk(scope) {
-        const scopes = [];
-        let currentScope = scope;
-
-        while (currentScope) {
-            scopes.push(currentScope);
-            currentScope = Object.getPrototypeOf(currentScope);
-        }
-
-        return scopes;
-    }
-
-    /**
      * Create a plain object for a base.
      * @returns {Object}
      */
@@ -58,6 +39,32 @@ class Scoto {
       */
      static parent(scope) { return Object.getPrototypeOf(scope) }
 
+    /**
+     * Provide an array of the successive parent scopes.
+     * Useful for identifying shadowed variables,
+     * scope nesting depth, or flattening the scope.
+     * @param {Object} scope
+     * @returns {Array}
+     */
+    static walk(scope) {
+        const scopes = [];
+        let currentScope = scope;
+
+        while (currentScope) {
+            scopes.push(currentScope);
+            currentScope = Object.getPrototypeOf(currentScope);
+        }
+
+        return scopes;
+    }
+
+    /**
+     * Accumulate the values of the scototype chain in a single object.
+     * @param {Object} scope
+     * @returns {Object}
+     */
+    static flatten(scope) { return Object.assign(Object.create(null), ...this.walk(scope).reverse()) }
+
      /**
       * Bind a function so the context is a scototype.
       * Defaults to a new child, but can be overridden with noNest
@@ -67,13 +74,6 @@ class Scoto {
       * @returns {Function}
       */
       static bind(fn, scope, noNest) { return fn.bind(noNest ? scope : Object.create(scope)) }
-
-     /**
-      * Accumulate the values of the scototype chain in a single object.
-      * @param {Object} scope
-      * @returns {Object}
-      */
-      static flatten(scope) { return Object.assign(Object.create(null), ...this.walk(scope).reverse()) }
 }
 
 module.exports = Scoto;
