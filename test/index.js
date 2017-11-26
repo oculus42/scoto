@@ -280,7 +280,7 @@ describe('Scoto', function() {
         it('should bind a scope as a context', function(){
             const newScoto = Scoto.new();
             const getThis = function() { return this };
-            const boundGet = Scoto.bind(getThis, newScoto, true);
+            const boundGet = Scoto.bind(getThis, newScoto);
 
             assert.strictEqual(newScoto, boundGet());
             assert.notProperty(boundGet(), 'foo');
@@ -293,7 +293,7 @@ describe('Scoto', function() {
         it('should bind a child scope as a context', function(){
             const newScoto = Scoto.new();
             const getThis = function() { return this };
-            const boundGet = Scoto.bind(getThis, newScoto);
+            const boundGet = Scoto.bind(getThis, newScoto, true);
 
             assert.notStrictEqual(newScoto, boundGet());
             assert.notProperty(boundGet(), 'foo');
@@ -302,6 +302,111 @@ describe('Scoto', function() {
 
             assert.property(boundGet(), 'foo');
         });
-    })
+    });
+
+    describe('binder', function(){
+        it('should return a function', function(){
+            const nullBinder = Scoto.binder(null, true);
+
+            // These two will not return a proper context.
+            assert.isFunction(Scoto.binder());
+            assert.isFunction(Scoto.binder(null));
+
+            // This will result in a TypeError when we try to bind it.
+            assert.isFunction(Scoto.binder(1));
+
+            // These are valid
+            assert.isFunction(Scoto.binder(null, true));
+            assert.isFunction(Scoto.binder(Scoto.new()));
+        });
+
+        it('should have an arity of 1', function(){
+            assert.equal(Scoto.binder().length, 1);
+            assert.equal(Scoto.binder(1).length, 1);
+            assert.equal(Scoto.binder(null, true).length, 1);
+            assert.equal(Scoto.binder(Scoto.new()).length, 1);
+        });
+
+        it('should provide a binding function', function(){
+
+            const bindNullNest = Scoto.binder(null, true);
+
+            const newScoto = Scoto.new();
+            const bindNewScoto = Scoto.binder(newScoto);
+
+            const childScoto = Scoto.child(newScoto);
+            const bindChildScoto = Scoto.binder(childScoto);
+
+            const getThis = function(){ return this; };
+
+            assert.isObject(bindNullNest(getThis)());
+            assert.strictEqual(bindNewScoto(getThis)(), newScoto);
+        });
+
+        it('should error on bad values', function(){
+            // TODO: Should the bind/binder throw the error when it get the bad value?
+
+            const getThis = function(){ return this; };
+
+            assert.throws(function(){
+                Scoto.binder(undefined, true)(getThis);
+            });
+
+            assert.throws(function(){
+                Scoto.binder(1, true)(getThis);
+            });
+        });
+
+        it('should provide a shared context', function(){
+            const newScoto = Scoto.new();
+            const binder = Scoto.binder(newScoto);
+
+            const changeFooOne = function(){ this.foo = 1 };
+            const changeFooTwo = function(){ this.foo = 2 };
+            const getThis = function(){ return this; };
+
+            const boundOne = binder(changeFooOne);
+            const boundTwo = binder(changeFooTwo);
+            const boundThis = binder(getThis);
+
+            assert.notProperty(boundThis(), 'foo', 'Nothing initially');
+
+            boundOne();
+
+            assert.property(boundThis(), 'foo', 'Now set');
+            assert.equal(boundThis().foo, 1, 'First Value');
+
+            boundTwo();
+
+            assert.equal(boundThis().foo, 2, 'Second value');
+        });
+
+        it('should provide nested context', function(){const newScoto = Scoto.new();
+            const binder = Scoto.binder(newScoto);
+
+            const changeFooOne = function(){ this.foo = 1 };
+            const changeFooTwo = function(){ this.foo = 2 };
+            const getThis = function(){ return this; };
+
+            const boundOne = binder(changeFooOne);
+            const boundThis = binder(getThis);
+
+            // Make a new context for Two
+            const boundTwo = Scoto.binder(newScoto, true)(changeFooTwo);
+
+            assert.notProperty(boundThis(), 'foo', 'Nothing initially');
+
+            boundOne();
+
+            assert.property(boundThis(), 'foo', 'Now set');
+            assert.equal(boundThis().foo, 1, 'First Value');
+
+            // Change nested context.
+            boundTwo();
+
+            assert.equal(boundThis().foo, 1, 'Still first Value');
+
+        });
+    });
 
 });
