@@ -1,9 +1,8 @@
 # Scototypes (Scoto)
 ## Nestable, Testable, Isolable Scopes using Prototype chains
 
+[![NPM](https://nodei.co/npm/scoto.png?compact=true)](https://npmjs.org/package/scoto)  
 [![Greenkeeper badge](https://badges.greenkeeper.io/oculus42/scoto.svg)](https://greenkeeper.io/)
-
-[![NPM](https://nodei.co/npm/scoto.png?compact=true)](https://npmjs.org/package/scoto)
 
 Since ECMAscript 3, scopes are a foundational element of JavaScript.
 Concepts like *closures* depend on the automatic creation of severally-nested scopes.
