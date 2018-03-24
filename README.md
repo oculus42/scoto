@@ -1,7 +1,12 @@
 # Scototypes (Scoto)
 ## Nestable, Testable, Isolable Scopes using Prototype chains
 
-[![NPM](https://nodei.co/npm/scoto.png?compact=true)](https://npmjs.org/package/scoto)
+
+[![npm](https://img.shields.io/npm/v/scoto.svg)](https://www.npmjs.com/package/scoto) 
+[![Build Status](https://travis-ci.org/oculus42/scoto.svg?branch=master)](https://travis-ci.org/oculus42/scoto) 
+[![Code Climate](https://codeclimate.com/github/oculus42/scoto/badges/gpa.svg)](https://codeclimate.com/github/oculus42/scoto) 
+[![Test Coverage](https://codeclimate.com/github/oculus42/scoto/badges/coverage.svg)](https://codeclimate.com/github/oculus42/scoto/coverage) 
+[![Dependencies](https://david-dm.org/oculus42/scoto.svg)](https://david-dm.org/oculus42/scoto)
 
 Since ECMAscript 3, scopes are a foundational element of JavaScript.
 Concepts like *closures* depend on the automatic creation of severally-nested scopes.
@@ -122,7 +127,7 @@ Because scototypes are standard objects, you can bind them as a context with the
 
 `Scoto` includes `bind` and `binder` as well. These provide the ability to create a new 
 nested context instead of binding the current `Scoto`. `binder` provides a sort of 
-*partial applicaiton* to allow easy reuse of a particular bind behavior.
+*partial application* to allow easy reuse of a particular bind behavior.
 
 ```javascript
 function getMethodsWithContext(context, nest) {

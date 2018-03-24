@@ -1,10 +1,11 @@
 {
   "name": "scoto",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Prototype-based scope concept",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt test",
+    "cover": "grunt cover"
   },
   "repository": {
     "type": "git",
