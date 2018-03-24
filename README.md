@@ -122,7 +122,7 @@ Because scototypes are standard objects, you can bind them as a context with the
 
 `Scoto` includes `bind` and `binder` as well. These provide the ability to create a new 
 nested context instead of binding the current `Scoto`. `binder` provides a sort of 
-*partial applicaiton* to allow easy reuse of a particular bind behavior.
+*partial application* to allow easy reuse of a particular bind behavior.
 
 ```javascript
 function getMethodsWithContext(context, nest) {
