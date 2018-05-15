@@ -1,12 +1,12 @@
 # Scototypes (Scoto)
 ## Nestable, Testable, Isolable Scopes using Prototype chains
 
-
 [![npm](https://img.shields.io/npm/v/scoto.svg)](https://www.npmjs.com/package/scoto) 
 [![Build Status](https://travis-ci.org/oculus42/scoto.svg?branch=master)](https://travis-ci.org/oculus42/scoto) 
 [![Code Climate](https://codeclimate.com/github/oculus42/scoto/badges/gpa.svg)](https://codeclimate.com/github/oculus42/scoto) 
 [![Test Coverage](https://codeclimate.com/github/oculus42/scoto/badges/coverage.svg)](https://codeclimate.com/github/oculus42/scoto/coverage) 
 [![Dependencies](https://david-dm.org/oculus42/scoto.svg)](https://david-dm.org/oculus42/scoto)
+[![Greenkeeper badge](https://badges.greenkeeper.io/oculus42/scoto.svg)](https://greenkeeper.io/)
 
 Since ECMAscript 3, scopes are a foundational element of JavaScript.
 Concepts like *closures* depend on the automatic creation of severally-nested scopes.
